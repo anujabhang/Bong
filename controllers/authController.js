@@ -72,40 +72,40 @@ const loginController = async (req, res) => {
         .send({ success: false, message: "Invalid Email or Password" });
     }
 
-    const user = await userModel.findOne({email});
+    const user = await userModel.findOne({ email });
 
-    if(!user){
-        return res.status(404).send({
-            success:false, message:"Email not Registered"
-        })
-        
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "Email not Registered",
+      });
     }
 
     const match = await comparePassword(password, user.password);
-    
-    if(!match){
-        return res.status(404).send({
-            success:false, message:"Invalid Password"
-        })
+
+    if (!match) {
+      return res.status(404).send({
+        success: false,
+        message: "Invalid Password",
+      });
     }
 
     //token
-    const token = await JWT.sign({_id:user._id}, process.env.JWT_Secret, {
-        expiresIn:"7d"
+    const token = await JWT.sign({ _id: user._id }, process.env.JWT_Secret, {
+      expiresIn: "7d",
     });
 
     res.status(200).send({
-        succes:true,
-        message:"User Login Succesfull",
-        user:{
-            name:user.name,
-            email:user.email,
-            phone:user.phone,
-            address:user.address,
-        },
-        token,
-        match
-    })
+      succes: true,
+      message: "User Login Succesfull",
+      user: {
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+      },
+      token
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -116,4 +116,8 @@ const loginController = async (req, res) => {
   }
 };
 
-export { registerController, loginController };
+const testController = async (req, res) => {
+  res.send("protected route");
+};
+
+export { registerController, loginController, testController };
