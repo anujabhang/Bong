@@ -20,9 +20,13 @@ const Login = () => {
     try {
       const res = await axios.post("http://localhost:8080/api/v1/auth/login", {
         email,
-        password,
+        password
       });
-      if (res && res.data.success) {
+      console.log(res.data.succes); // Debug: Log the server response
+      console.log(res.data.message); // Debug: Log the server response
+  
+      if (res && res.data.succes) {
+        console.log("shit");
         toast.success(res.data && res.data.message);
         setAuth({
           ...auth,
@@ -30,6 +34,9 @@ const Login = () => {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
+        console.log('Auth state:', auth); // Debug: Log the updated state
+  
+        console.log('Navigating to homepage'); // Debug: Log navigation action
         navigate(location.state || "/");
       } else {
         toast.error(res.data.message);
@@ -39,8 +46,9 @@ const Login = () => {
       toast.error("Something went wrong");
     }
   };
+  
   return (
-    <Layout title="Register - Ecommer App">
+    <Layout title="Login - Shoppro">
       <div className="form-container " style={{ minHeight: "90vh" }}>
         <form onSubmit={handleSubmit}>
           <h4 className="title">LOGIN FORM</h4>

@@ -13,7 +13,7 @@ const Header = () => {
       token: "",
     });
     localStorage.removeItem("auth");
-    toast.success("Logout Successful");
+    toast.success("Logout Successfull");
   };
   return (
     <>
